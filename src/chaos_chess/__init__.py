@@ -1,0 +1,2 @@
+"""Chaos Chess package."""
+

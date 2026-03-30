@@ -1,0 +1,110 @@
+from __future__ import annotations
+
+import os
+
+import chess
+
+
+WINDOW_TITLE = "Chaos Chess"
+FPS = 60
+
+BOARD_MARGIN = 20
+SQUARE_SIZE = 80
+BOARD_SIZE = SQUARE_SIZE * 8
+PANEL_WIDTH = 400
+WINDOW_WIDTH = BOARD_MARGIN * 3 + BOARD_SIZE + PANEL_WIDTH
+WINDOW_HEIGHT = BOARD_MARGIN * 2 + BOARD_SIZE
+
+BOARD_ORIGIN = (BOARD_MARGIN, BOARD_MARGIN)
+PANEL_ORIGIN_X = BOARD_MARGIN * 2 + BOARD_SIZE
+
+INITIAL_TIME_MS = 5 * 60 * 1000
+
+# Chaos interval ranges (min, max turns) per frequency preset.
+# These are base values; clock pressure adjusts them further (see ChaosDirector).
+CHAOS_FREQUENCY_RANGES: dict[str, tuple[int, int]] = {
+    "calm": (5, 7),
+    "normal": (3, 5),
+    "mayhem": (1, 3),
+}
+HUMAN_COLOR = chess.WHITE
+BOT_COLOR = chess.BLACK
+BOT_MOVE_DELAY_SECONDS = 0.45
+BOT_MODE = os.getenv("CHAOS_CHESS_BOT_MODE", "auto")
+STOCKFISH_PATH = os.getenv("STOCKFISH_PATH")
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+CHAOS_DIRECTOR_MODE = os.getenv("CHAOS_DIRECTOR_MODE", "hybrid")
+CHAOS_DIRECTOR_MODEL = os.getenv("CHAOS_DIRECTOR_MODEL", "claude-sonnet-4-6")
+
+
+def _float_env(name: str, default: float) -> float:
+    raw_value = os.getenv(name)
+    if raw_value is None:
+        return default
+
+    try:
+        return float(raw_value)
+    except ValueError:
+        return default
+
+
+def _int_env(name: str, default: int) -> int:
+    raw_value = os.getenv(name)
+    if raw_value is None:
+        return default
+
+    try:
+        return int(raw_value)
+    except ValueError:
+        return default
+
+
+STOCKFISH_THINK_TIME_SECONDS = _float_env("CHAOS_CHESS_STOCKFISH_TIME_LIMIT", 0.2)
+FALLBACK_BOT_RANDOMNESS = _float_env("CHAOS_CHESS_FALLBACK_RANDOMNESS", 18.0)
+CHAOS_DIRECTOR_TIMEOUT_SECONDS = _float_env("CHAOS_DIRECTOR_TIMEOUT_SECONDS", 8.0)
+CHAOS_DIRECTOR_MAX_TOKENS = _int_env("CHAOS_DIRECTOR_MAX_TOKENS", 500)
+
+BACKGROUND_COLOR = (24, 28, 33)
+PANEL_COLOR = (33, 38, 45)
+PANEL_BORDER_COLOR = (66, 74, 86)
+CARD_COLOR = (43, 49, 57)
+CARD_ALT_COLOR = (47, 54, 63)
+CARD_SHADOW_COLOR = (7, 10, 14, 80)
+TEXT_COLOR = (239, 241, 245)
+SUBTLE_TEXT_COLOR = (180, 189, 198)
+ACCENT_COLOR = (92, 173, 255)
+WARNING_COLOR = (230, 101, 101)
+SUCCESS_COLOR = (99, 196, 123)
+MUTED_ACCENT_COLOR = (104, 117, 132)
+
+LIGHT_SQUARE_COLOR = (240, 217, 181)
+DARK_SQUARE_COLOR = (181, 136, 99)
+SELECTED_SQUARE_COLOR = (249, 215, 28, 120)
+MOVE_HINT_COLOR = (75, 173, 101)
+CAPTURE_HINT_COLOR = (207, 76, 76)
+CHECK_HIGHLIGHT_COLOR = (231, 111, 81, 110)
+LAST_MOVE_FROM_COLOR = (255, 235, 59, 72)
+LAST_MOVE_TO_COLOR = (255, 193, 7, 110)
+LOCKED_SQUARE_COLOR = (193, 71, 71, 110)
+FROZEN_SQUARE_COLOR = (100, 181, 246, 110)
+SLIPPERY_SQUARE_COLOR = (80, 227, 194, 110)
+LOCKED_BORDER_COLOR = (240, 118, 118)
+FROZEN_BORDER_COLOR = (137, 196, 255)
+SLIPPERY_BORDER_COLOR = (125, 255, 220)
+BOARD_EDGE_COLOR = (223, 229, 235)
+BOARD_SHADOW_COLOR = (6, 9, 12, 70)
+
+WHITE_PIECE_FILL = (245, 245, 240)
+WHITE_PIECE_TEXT = (38, 38, 38)
+BLACK_PIECE_FILL = (37, 39, 43)
+BLACK_PIECE_TEXT = (244, 244, 244)
+PIECE_BORDER_COLOR = (18, 18, 18)
+
+PROMOTION_OVERLAY_COLOR = (10, 10, 14, 180)
+PROMOTION_PANEL_COLOR = (44, 51, 61)
+PROMOTION_BUTTON_COLOR = (62, 72, 84)
+PROMOTION_BUTTON_HOVER_COLOR = (80, 92, 106)
+BUTTON_COLOR = (57, 66, 77)
+BUTTON_HOVER_COLOR = (72, 83, 95)
+BUTTON_ACTIVE_COLOR = (49, 110, 178)
+BUTTON_DISABLED_COLOR = (67, 72, 78)
